@@ -5,12 +5,16 @@
     <Component class="javax.swing.JFileChooser" name="DirectoryChooser">
       <Properties>
         <Property name="dialogType" type="int" value="1"/>
+        <Property name="currentDirectory" type="java.io.File" value="null"/>
         <Property name="dialogTitle" type="java.lang.String" value="&#x412;&#x44b;&#x431;&#x435;&#x440;&#x438;&#x442;&#x435; &#x43a;&#x430;&#x442;&#x430;&#x43b;&#x43e;&#x433; &#x434;&#x43b;&#x44f; &#x441;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x435;&#x43d;&#x438;&#x44f; &#x441;&#x442;&#x440;&#x430;&#x43d;&#x438;&#x446;"/>
         <Property name="fileSelectionMode" type="int" value="1"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DirectoryChooserActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="File cd = new File(System.getProperty(&quot;user.dir&quot;));&#xa;DirectoryChooser.setCurrentDirectory(cd);"/>
+      </AuxValues>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -52,12 +56,14 @@
                           <Component id="Label_language1" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="ComboBox_filterType" alignment="0" max="32767" attributes="0"/>
-                          <Component id="ComboBox_selectedRegion" alignment="0" max="32767" attributes="0"/>
-                          <Component id="ComboBox_languageSearch" alignment="0" max="32767" attributes="0"/>
-                          <Component id="Spinner_pageNumber" max="32767" attributes="0"/>
-                          <Component id="ComboBox_sortType" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="ComboBox_filterType" alignment="0" max="32767" attributes="0"/>
+                              <Component id="ComboBox_selectedRegion" alignment="0" max="32767" attributes="0"/>
+                              <Component id="ComboBox_languageSearch" alignment="0" max="32767" attributes="0"/>
+                              <Component id="Spinner_pageNumber" max="32767" attributes="0"/>
+                              <Component id="ComboBox_sortType" max="32767" attributes="0"/>
+                          </Group>
                           <Component id="TextField_pathDownloads" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -295,13 +301,13 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="TextField_pathDownloads">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="/"/>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TextField_pathDownloadsMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TextField_pathDownloadsActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="String strPath = System.getProperty(&quot;user.dir&quot;);&#xa;&#xa;TextField_pathDownloads.setText(strPath);"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

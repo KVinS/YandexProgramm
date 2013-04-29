@@ -4,7 +4,12 @@
  */
 package yandexprogramm;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,8 +57,11 @@ public class interfaceProgram extends javax.swing.JFrame {
         TextField_pathDownloads = new javax.swing.JTextField();
 
         DirectoryChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        DirectoryChooser.setCurrentDirectory(null);
         DirectoryChooser.setDialogTitle("Выберите каталог для сохранения страниц");
         DirectoryChooser.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+        File cd = new File(System.getProperty("user.dir"));
+        DirectoryChooser.setCurrentDirectory(cd);
         DirectoryChooser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DirectoryChooserActionPerformed(evt);
@@ -140,7 +148,9 @@ public class interfaceProgram extends javax.swing.JFrame {
         TextArea_console.setRows(5);
         jScrollPane3.setViewportView(TextArea_console);
 
-        TextField_pathDownloads.setText("/");
+        String strPath = System.getProperty("user.dir");
+
+        TextField_pathDownloads.setText(strPath);
         TextField_pathDownloads.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TextField_pathDownloadsMouseClicked(evt);
@@ -171,12 +181,13 @@ public class interfaceProgram extends javax.swing.JFrame {
                             .addComponent(Label_sort)
                             .addComponent(Label_language1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ComboBox_filterType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ComboBox_selectedRegion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ComboBox_languageSearch, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Spinner_pageNumber)
-                            .addComponent(ComboBox_sortType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(ComboBox_filterType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ComboBox_selectedRegion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ComboBox_languageSearch, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Spinner_pageNumber)
+                                .addComponent(ComboBox_sortType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(TextField_pathDownloads))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Button_searchStart, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -234,7 +245,6 @@ public class interfaceProgram extends javax.swing.JFrame {
         } else {
             writeToConsole("Запрос \"" + Field_requestText.getText() + "\" добавлен на обработку.");
             new YandexSearth(this, Field_requestText.getText(), ComboBox_selectedRegion.getSelectedIndex(), ComboBox_filterType.getSelectedIndex(), ComboBox_languageSearch.getSelectedIndex(), (Integer) Spinner_pageNumber.getValue(), ComboBox_sortType.getSelectedIndex());
-
         }
     }//GEN-LAST:event_Button_searchStartMouseClicked
 
@@ -270,7 +280,7 @@ public class interfaceProgram extends javax.swing.JFrame {
     }//GEN-LAST:event_DirectoryChooserActionPerformed
 
     private void TextField_pathDownloadsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TextField_pathDownloadsMouseClicked
- DirectoryChooser.showDialog(rootPane, "Выбрать");
+        DirectoryChooser.showDialog(rootPane, "Выбрать");
     }//GEN-LAST:event_TextField_pathDownloadsMouseClicked
 
     private void TextField_pathDownloadsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextField_pathDownloadsActionPerformed
@@ -280,11 +290,12 @@ public class interfaceProgram extends javax.swing.JFrame {
     public synchronized void writeToConsole(String str) {
         TextArea_console.append(str + "\n");
     }
+
+    public String getSaveDirectory() {
+        return DirectoryChooser.getSelectedFile().getAbsolutePath();
+    }
     
-    
-   public String getSaveDirectory(){
-       return DirectoryChooser.getCurrentDirectory().getAbsolutePath();
-   }
+ 
 
     /**
      * @param args the command line arguments
@@ -317,10 +328,10 @@ public class interfaceProgram extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new interfaceProgram().setVisible(true);
-               
-                //TextField_pathDownloads.setText(DirectoryChooser.showDialog(rootPane, null));
             }
         });
+
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button_searchStart;
